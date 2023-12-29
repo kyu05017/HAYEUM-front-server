@@ -42,7 +42,9 @@ public class HttpSend {
 		}
 
 		// 데이터 정제
-		if (response != null){}
+		if (response != null){
+			log.debug("?");
+		}
 		return response;
 	}
 
