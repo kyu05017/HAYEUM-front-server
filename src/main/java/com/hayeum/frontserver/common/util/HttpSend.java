@@ -2,6 +2,7 @@ package com.hayeum.frontserver.common.util;
 
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
+import com.hayeum.frontserver.common.object.SetMap;
 import com.hayeum.frontserver.common.constant.TargetUrl;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -26,7 +27,7 @@ public class HttpSend {
 		HashMap response = webClient
 				.post()
 				.uri(serviceId)
-				.header("Content-Type","application/json")
+				.header("Content-Type", "application/json")
 				.header("test","ddd")
 				.bodyValue(requestMap)
 				.retrieve()
@@ -42,7 +43,19 @@ public class HttpSend {
 
 		// 데이터 정제
 		if (response != null){}
-
 		return response;
+	}
+
+	public HashMap<String,Object> setHeaders(SetMap<String,Object> patamMap) throws Exception {
+
+		SetMap<String, Object> returnMap = patamMap.clone();
+
+		try {
+
+		} catch(Exception e) {
+
+		}
+
+		return  new HashMap<>();
 	}
 }
