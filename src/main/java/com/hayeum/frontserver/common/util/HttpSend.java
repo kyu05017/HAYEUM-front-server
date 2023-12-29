@@ -1,8 +1,6 @@
 package com.hayeum.frontserver.common.util;
 
 import java.util.HashMap;
-
-import com.hayeum.frontserver.common.object.SendMap;
 import lombok.extern.slf4j.Slf4j;
 import com.hayeum.frontserver.common.constant.TargetUrl;
 import org.springframework.web.reactive.function.client.WebClient;

@@ -1,11 +1,13 @@
 package com.hayeum.frontserver.common.object;
 
-import io.netty.util.internal.StringUtil;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
+@Slf4j
 @AllArgsConstructor
 public class BaseMap<k,v> extends HashMap<k,v> {
 
@@ -18,6 +20,19 @@ public class BaseMap<k,v> extends HashMap<k,v> {
 
 	public String getValue(String key, String defaultValue) throws RuntimeException {
 		return getValue(key, defaultValue, true);
+	}
+
+	public int getValue(String key,int defaultValue) throws RuntimeException {
+		try {
+			Object o = (Object) super.get(key);
+			if(o != null) {
+				return defaultValue;
+			}
+		} catch (NumberFormatException e) {
+			log.error("해당 키값 [{}]의 형태가 Integer가 아닙니다.",key);
+		}
+
+		return 0;
 	}
 
 	private String getValue(String key,String defaultValue, boolean check) throws RuntimeException {

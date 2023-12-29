@@ -1,6 +1,5 @@
 package com.hayeum.frontserver.common.object;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -37,11 +36,11 @@ public class SendMap<k,v> extends BaseMap<k,v> {
 		this.serviceId  = serviceId;
 	}
 	
-	/*
+	/**
 	* public SendMap(HttpServletRequest request){
 	*   //TODO : 리퀘스트의 헤더 바디를 받아 XSS 처리 후 반환 함수 
 	* }
-	**/
+	*/
 
 	@Override
 	public SendMap<k,v> clone(){
