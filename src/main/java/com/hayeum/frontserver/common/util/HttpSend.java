@@ -11,7 +11,9 @@ public class HttpSend {
 	private static String EMPTY = "";
 
 	private static String serverType = "";
+	private static final String successResultCode = "00000";
 
+	@SuppressWarnings("unchecked")
 	public static HashMap<String, Object> callBackServer(HashMap<String,Object> formData, String serviceId, String target){
 
 		HashMap<String,Object> requestMap = (HashMap<String, Object>)formData.clone();
