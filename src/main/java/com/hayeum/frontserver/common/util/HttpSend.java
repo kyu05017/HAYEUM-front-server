@@ -99,7 +99,7 @@ public class HttpSend {
 			String serviceId
 	)throws WebClientRequestException{
 		HashMap<String,Object> resultMap = new HashMap<>();
-		Map<String,Object> setHeaders = setHeaders(formData.getHeaderIn());
+		SetMap<String,Object> setHeaders = setHeaders(formData.getHeaderIn());
 		SetMap<String,Object> requestMap = formData.getBodyIn();
 		log.info("*************** POST Http Send *****************");
 		try{
@@ -142,7 +142,7 @@ public class HttpSend {
 		.clientConnector(new ReactorClientHttpConnector(httpClient))
 		.build();
 	}
-	private static HashMap<String,Object> setHeaders(SetMap<String,Object> paramMap) {
+	private static SetMap<String,Object> setHeaders(SetMap<String,Object> paramMap) {
 		SetMap<String, Object> returnMap = paramMap.clone();
 		returnMap.setValue(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 		return returnMap;
