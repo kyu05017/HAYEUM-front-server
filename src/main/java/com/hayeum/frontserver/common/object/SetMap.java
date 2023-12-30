@@ -30,7 +30,7 @@ public class SetMap<k,v> extends BaseMap<k,v>{
 			if(i.hasNext() == false){
 				return sb.append("}").toString();
 			}
-			sb.append(",").append(".");
+			sb.append(",").append(" ");
 		}
 	}
 }
