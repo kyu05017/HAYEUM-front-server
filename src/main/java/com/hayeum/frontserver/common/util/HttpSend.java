@@ -45,14 +45,14 @@ public class HttpSend {
 	 * @throws WebClientRequestException
 	 */
 	@SuppressWarnings("unchecked")
-	public static HashMap<String, Object> callServer(
+	public static SendMap<String, Object> callServer(
 			SendMap<String,Object> formData,
 			String serviceId,
 			ServicePort target
 	) throws WebClientRequestException {
 		WebClient webClient = setBaseUrl(target);
 		SendMap<String,Object> getResponse = postRequest(webClient, formData , serviceId);
-		return new HashMap<>();
+		return getResponse;
 	}
 	@Deprecated
 	@SuppressWarnings("unchecked")

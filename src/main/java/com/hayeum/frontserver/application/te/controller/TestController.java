@@ -28,7 +28,8 @@ public class TestController {
 		SendMap<String, Object> formData = new SendMap<>(request);
 		formData.getBodyIn().setValue("test" ,"파라미티");
 		formData.getBodyIn().setValue("test2","파라미티");
-		HashMap<String, Object> response = HttpSend.callServer(formData,"/TestController/test" , ServicePort.DATABASE);
+
+		SendMap<String, Object> response = HttpSend.callServer(formData,"/TestController/test" , ServicePort.DATABASE);
 
 		return new SendMap<String,Object>();
 	}
