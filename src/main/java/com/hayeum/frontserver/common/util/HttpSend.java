@@ -64,7 +64,6 @@ public class HttpSend {
 		HashMap resultMap = new HashMap<>();
 		Map<String,Object> setHeaders = setHeaders(formData.getHeaderIn());
 		Map<String,Object> setBodyPrams= formData.getBodyIn().clone();
-
 		log.info("*************** GET Http Send *****************");
 		try{
 			JSONObject jsonObject = new JSONObject(setBodyPrams);
