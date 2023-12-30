@@ -33,6 +33,8 @@ public class HttpSend {
 	private static final String EMPTY = "";
 	private static final String RESULT = "result";
 	private static final String successResultCode = "00000";
+	private static final String ENTER   = System.lineSeparator();
+	private static final String TAB     = "    ";
 
 	/**
 	 * @deprecated : 서버 통신 유틸
@@ -48,14 +50,8 @@ public class HttpSend {
 			String serviceId,
 			ServicePort target
 	) throws WebClientRequestException {
-
 		WebClient webClient = setBaseUrl(target);
-		HashMap<?,?> getResponse = null;
-
-
-		getResponse = postRequest(webClient, formData , serviceId);
-
-
+		SendMap<String,Object> getResponse = postRequest(webClient, formData , serviceId);
 		return new HashMap<>();
 	}
 	@Deprecated
@@ -93,32 +89,41 @@ public class HttpSend {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static HashMap<?,?> postRequest(
+	private static SendMap<String,Object> postRequest(
 			WebClient webClient,
 			SendMap<String,Object> formData,
 			String serviceId
 	)throws WebClientRequestException{
-		HashMap<String,Object> resultMap = new HashMap<>();
-		SetMap<String,Object> setHeaders = setHeaders(formData.getHeaderIn());
-		SetMap<String,Object> requestMap = formData.getBodyIn();
+		SendMap<String,Object> resultMap = new SendMap<>();
+		SetMap<String,Object> headerIn = setHeaders(formData.getHeaderIn());
+		SetMap<String,Object> headerOut = new SetMap<>();
+		SetMap<String,Object> bodyIn = formData.getBodyIn();
+		SetMap<String,Object> bodyOut = new SetMap<>();
+		resultMap.setServiceId(serviceId);
 		log.info("*************** POST Http Send *****************");
+		log.info(requestLog(formData));
 		try{
-			resultMap = webClient
+			bodyOut = webClient
 				.post()
 				.uri(serviceId)
 				.acceptCharset(StandardCharsets.UTF_8)
 				.headers(head ->{
-					setHeaders.forEach((k,v) -> {head.add(k,(String)v);});
+					headerIn.forEach((k,v) -> {head.add(k,(String)v);});
 				})
-				.bodyValue(requestMap)
+				.bodyValue(bodyIn)
 				.retrieve()
-				.bodyToMono(HashMap.class)
+				.bodyToMono(SetMap.class)
 				.block();
-			resultMap.put(RESULT,successResultCode);
+			headerOut.setValue(RESULT,successResultCode);
 		}catch (WebClientRequestException e){
-			resultMap.put("error",e.getMessage());
-			resultMap.put(RESULT,"11111");
+			headerOut.put("error",e.getMessage());
+			headerOut.put(RESULT,"11111");
 		}
+		resultMap.getHeaderIn() .putAll(headerIn);
+		resultMap.getBodyIn()   .putAll(bodyIn);
+		resultMap.getHeaderOut().putAll(headerOut);
+		resultMap.getBodyOut().  putAll(bodyOut);
+		log.info(responseLog(formData));
 		log.info("************************************************");
 		return resultMap;
 	}
@@ -146,5 +151,19 @@ public class HttpSend {
 		SetMap<String, Object> returnMap = paramMap.clone();
 		returnMap.setValue(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 		return returnMap;
+	}
+
+	private static String requestLog(SendMap sendMap){
+		return new StringBuilder(ENTER).append(TAB).append("[REQUEST PARAMETER] : ").append(sendMap.toString())
+				.append(ENTER).append(TAB).append("[BODY_IN] : ").append(sendMap.getBodyIn().toLog())
+				.append(ENTER).append(TAB).append("[HEADER_IN] : ").append(sendMap.getHeaderIn().toLog())
+				.append(ENTER).append(TAB).append("[REQUEST_SERVICE_ID] :").append(sendMap.getServiceId()).toString();
+	}
+
+	private static String responseLog(SendMap sendMap){
+		return new StringBuilder(ENTER).append(TAB).append("[RESPONSE PARAMETER] : ").append(sendMap.toString())
+				.append(ENTER).append(TAB).append("[BODY_OUT] : ").append(sendMap.getBodyOut().toLog())
+				.append(ENTER).append(TAB).append("[HEADER_OUT] : ").append(sendMap.getHeaderOut().toLog())
+				.append(ENTER).append(TAB).append("[REQUEST_SERVICE_ID] :").append(sendMap.getServiceId()).toString();
 	}
 }
