@@ -1,30 +1,26 @@
 package com.hayeum.frontserver.common.util;
 
-import io.netty.channel.ChannelOption;
-import org.json.simple.JSONObject;
-import org.springframework.web.reactive.function.BodyInserters;
-import reactor.netty.http.client.HttpClient;
-import io.netty.handler.timeout.ReadTimeoutHandler;
-import io.netty.handler.timeout.WriteTimeoutHandler;
-import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.http.client.reactive.ReactorClientHttpConnector;
-
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.Map;
-
+import java.util.HashMap;
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
 import com.hayeum.frontserver.common.constant.ServiceMethod;
-import com.hayeum.frontserver.common.constant.ServicePort;
-import com.hayeum.frontserver.common.constant.ServiceUrl;
 import lombok.extern.slf4j.Slf4j;
-import com.hayeum.frontserver.common.object.SetMap;
-import com.hayeum.frontserver.common.object.SendMap;
-import org.springframework.http.HttpHeaders;
+import org.json.simple.JSONObject;
+import java.util.concurrent.TimeUnit;
+import io.netty.channel.ChannelOption;
+import java.nio.charset.StandardCharsets;
 import org.springframework.http.MediaType;
+import reactor.netty.http.client.HttpClient;
+import org.springframework.http.HttpHeaders;
+import io.netty.handler.timeout.ReadTimeoutHandler;
+import com.hayeum.frontserver.common.object.SetMap;
+import io.netty.handler.timeout.WriteTimeoutHandler;
+import com.hayeum.frontserver.common.object.SendMap;
+import com.hayeum.frontserver.common.constant.ServiceUrl;
+import com.hayeum.frontserver.common.constant.ServicePort;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClientRequestException;
 
 @Slf4j
@@ -45,23 +41,28 @@ public class HttpSend {
 	 * @throws WebClientRequestException
 	 */
 	@SuppressWarnings("unchecked")
-	public static HashMap<String, Object> callServer(
+	public static SendMap<String, Object> callServer(
 			SendMap<String,Object> formData,
 			String serviceId,
-			ServicePort target
+			ServicePort target,
+			ServiceMethod method
 	) throws WebClientRequestException {
 		WebClient webClient = setBaseUrl(target);
-		SendMap<String,Object> getResponse = postRequest(webClient, formData , serviceId);
-		return new HashMap<>();
+		SendMap<String,Object> result = new SendMap<>();
+
+		switch (method) {
+			case POST : result = postRequest(webClient, formData , serviceId); break;
+			case GET  : result = getRequest(webClient, formData , serviceId); break;
+		}
+		return result;
 	}
-	@Deprecated
 	@SuppressWarnings("unchecked")
-	private static HashMap<?,?> getRequest(
+	private static SendMap<String,Object> getRequest(
 			WebClient webClient,
 			SendMap<String,Object> formData,
 			String serviceId
 	) throws WebClientRequestException {
-		HashMap resultMap = new HashMap<>();
+		SendMap<String,Object> resultMap = new SendMap<>();
 		Map<String,Object> setHeaders = setHeaders(formData.getHeaderIn());
 		Map<String,Object> setBodyPrams= formData.getBodyIn().clone();
 		log.info("*************** GET Http Send *****************");
@@ -76,7 +77,7 @@ public class HttpSend {
 					})
 					.header("requestParams",jsonObject.toJSONString())
 					.retrieve()
-					.bodyToMono(HashMap.class)
+					.bodyToMono(SendMap.class)
 					.block();
 			resultMap.put(RESULT,successResultCode);
 		}catch (WebClientRequestException e){
