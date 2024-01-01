@@ -4,6 +4,7 @@ import com.hayeum.frontserver.common.constant.ServiceMethod;
 import com.hayeum.frontserver.common.object.RequestParam;
 import lombok.extern.slf4j.Slf4j;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import com.hayeum.frontserver.common.util.HttpSend;
 import com.hayeum.frontserver.common.object.SendMap;
@@ -26,6 +27,7 @@ public class TestController {
 
 		formData.getBodyIn().setValue("test" ,"파라미티");
 		formData.getBodyIn().setValue("test2","파라미티");
+
 
 		SendMap<String, Object> response = HttpSend.callServer(formData,"/TestController/test" , ServicePort.DATABASE, ServiceMethod.POST);
 
