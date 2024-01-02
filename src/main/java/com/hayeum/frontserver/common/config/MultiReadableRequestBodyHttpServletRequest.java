@@ -1,4 +1,4 @@
-package com.hayeum.frontserver.config;
+package com.hayeum.frontserver.common.config;
 
 import jakarta.servlet.ReadListener;
 import jakarta.servlet.ServletInputStream;

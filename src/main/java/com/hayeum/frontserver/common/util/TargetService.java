@@ -1,9 +1,12 @@
 package com.hayeum.frontserver.common.util;
 
-import com.hayeum.frontserver.common.constant.ServiceMethod;
-import com.hayeum.frontserver.common.constant.ServicePort;
-import com.hayeum.frontserver.common.constant.ServiceUrl;
+import com.hayeum.frontserver.common.constant.service.ServiceMethod;
+import com.hayeum.frontserver.common.constant.service.ServicePort;
+import com.hayeum.frontserver.common.constant.service.ServiceUrl;
+import com.hayeum.frontserver.common.extend.TargetExtend;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class TargetService extends TargetExtend {
 
 	private static TargetService instance;
@@ -33,8 +36,7 @@ public class TargetService extends TargetExtend {
 	}
 
 	public String setPort(ServicePort port){
-		String returnPort = (port == ServicePort.DATABASE)?this.DATABASE:this.FILE;
-		return returnPort;
+		return (port == ServicePort.DATABASE)?DATABASE:FILE;
 	}
 	public String setMethod(ServiceMethod method){
 		return String.valueOf(method);

@@ -7,7 +7,7 @@ server:
   port: '8080'
 spring:
   profiles:
-    active: dev
+    active: local
   redis:
     host: 127.0.0.1
     port: 6379

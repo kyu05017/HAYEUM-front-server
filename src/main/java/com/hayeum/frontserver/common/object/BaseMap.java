@@ -18,7 +18,15 @@ public class BaseMap<k,v> extends HashMap<k,v> {
 	private static final String EMPTY = "";
 
 	public Object get(String key) throws RuntimeException {
-		return getValue(key, EMPTY);
+		Object o = super.get(key);
+		if(o instanceof List) {
+			o = (List)o;
+		} else if(o instanceof Map) {
+			o = (Map)o;
+		} else if(o instanceof Set) {
+			o = (Set)o;
+		}
+		return o;
 	}
 
 	public String getValue(String key, String defaultValue) throws RuntimeException {
