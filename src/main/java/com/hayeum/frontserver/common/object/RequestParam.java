@@ -1,7 +1,7 @@
 package com.hayeum.frontserver.common.object;
 
 
-import com.hayeum.frontserver.common.constant.ServicePort;
+import com.hayeum.frontserver.common.constant.service.ServicePort;
 import lombok.*;
 
 @Getter
