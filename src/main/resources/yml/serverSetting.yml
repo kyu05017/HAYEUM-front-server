@@ -1,0 +1,8 @@
+target:
+  port :
+    DATABASE : "8081"
+    FILE : "8082"
+  URL :
+    LOCAL : "http://localhost:"
+    DEV : "xxx.xxx.xxx.xxx"
+    PROD : "xxx.xxx.xxx.xxx"
