@@ -55,7 +55,7 @@ public class HttpSend {
 		}
 		return result;
 	}
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked","deprecation"})
 	private static SendMap<String,Object> getRequest(
 			WebClient webClient,
 			SendMap<String,Object> formData,

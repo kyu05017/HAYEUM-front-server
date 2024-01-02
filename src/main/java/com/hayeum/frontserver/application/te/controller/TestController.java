@@ -28,7 +28,7 @@ public class TestController {
 		formData.getBodyIn().setValue("test2","파라미티");
 
 
-		SendMap<String, Object> response = HttpSend.callServer(formData,"/TestController/test2" , ServicePort.DATABASE, ServiceMethod.GET);
+		SendMap<String, Object> response = HttpSend.callServer(formData,"/TestController/test2" , ServicePort.DATABASE, ServiceMethod.POST);
 
 		log.info(response.toString());
 
