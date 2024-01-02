@@ -1,14 +1,13 @@
 package com.hayeum.frontserver.application.te.controller;
 
-import com.hayeum.frontserver.common.constant.ServiceMethod;
+import com.hayeum.frontserver.common.constant.service.ServiceMethod;
 import com.hayeum.frontserver.common.object.RequestParam;
 import lombok.extern.slf4j.Slf4j;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import com.hayeum.frontserver.common.util.HttpSend;
 import com.hayeum.frontserver.common.object.SendMap;
-import com.hayeum.frontserver.common.constant.ServicePort;
+import com.hayeum.frontserver.common.constant.service.ServicePort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -29,7 +28,7 @@ public class TestController {
 		formData.getBodyIn().setValue("test2","파라미티");
 
 
-		SendMap<String, Object> response = HttpSend.callServer(formData,"/TestController/test" , ServicePort.DATABASE, ServiceMethod.POST);
+		SendMap<String, Object> response = HttpSend.callServer(formData,"/TestController/test2" , ServicePort.DATABASE, ServiceMethod.GET);
 
 		log.info(response.toString());
 
