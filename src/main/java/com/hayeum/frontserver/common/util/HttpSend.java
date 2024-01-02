@@ -1,10 +1,9 @@
 package com.hayeum.frontserver.common.util;
 
 import java.util.Map;
-import java.util.HashMap;
 import java.time.Duration;
 
-import com.hayeum.frontserver.common.constant.ServiceMethod;
+import com.hayeum.frontserver.common.constant.service.ServiceMethod;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import java.util.concurrent.TimeUnit;
@@ -17,8 +16,8 @@ import io.netty.handler.timeout.ReadTimeoutHandler;
 import com.hayeum.frontserver.common.object.SetMap;
 import io.netty.handler.timeout.WriteTimeoutHandler;
 import com.hayeum.frontserver.common.object.SendMap;
-import com.hayeum.frontserver.common.constant.ServiceUrl;
-import com.hayeum.frontserver.common.constant.ServicePort;
+import com.hayeum.frontserver.common.constant.service.ServiceUrl;
+import com.hayeum.frontserver.common.constant.service.ServicePort;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClientRequestException;
@@ -56,7 +55,7 @@ public class HttpSend {
 		}
 		return result;
 	}
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked","deprecation"})
 	private static SendMap<String,Object> getRequest(
 			WebClient webClient,
 			SendMap<String,Object> formData,
@@ -132,6 +131,13 @@ public class HttpSend {
 		StringBuilder sb = new StringBuilder();
 		sb.append(TargetService.getInstance().setUrl(ServiceUrl.LOCAL));
 		sb.append(TargetService.getInstance().setPort(target));
+
+		log.info("URL세팅*******************************************");
+		log.info("target : [{}]",target);
+		log.info("URL : [{}]",TargetService.getInstance().setUrl(ServiceUrl.LOCAL));
+		log.info("Port : [{}]",TargetService.getInstance().setPort(target));
+		log.info("URI : [{}]",sb.toString());
+		log.info("**************************************************");
 
 		// TIMEOUT
 		HttpClient httpClient = HttpClient.create()
