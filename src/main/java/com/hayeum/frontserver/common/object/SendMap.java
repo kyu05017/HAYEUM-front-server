@@ -111,13 +111,13 @@ public class SendMap<k,v> extends BaseMap<k,v> {
 				bodyMap = new ObjectMapper().readValue(jsonObject.toString(), Map.class);
 			}
 		} catch (JsonParseException e) {
-			e.printStackTrace();
+			log.error("JSON parsing error : [{}]", e.getMessage());
 		} catch (JsonMappingException e) {
-			e.printStackTrace();
+			log.error("JsonMappingException : [{}]", e.getMessage());
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error("IOException : [{}]", e.getMessage());
 		} catch (ParseException e) {
-			e.printStackTrace();
+			log.error("ParseException Exception : [{}]", e.getMessage());
 		}
 
 		if(bodyMap != null) {
