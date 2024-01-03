@@ -1,10 +1,9 @@
 package com.hayeum.frontserver.common.object;
 
-import lombok.AllArgsConstructor;
+import lombok.*;
 
-@AllArgsConstructor
+@Data
 public class UserInfoVo {
     private String name;
     private String email;
-    private int postCnt;
 }
