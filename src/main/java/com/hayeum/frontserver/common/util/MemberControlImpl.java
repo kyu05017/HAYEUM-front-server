@@ -1,7 +1,7 @@
 package com.hayeum.frontserver.common.util;
 
-import com.hayeum.frontserver.common.constant.ServiceMethod;
-import com.hayeum.frontserver.common.constant.ServicePort;
+import com.hayeum.frontserver.common.constant.service.ServiceMethod;
+import com.hayeum.frontserver.common.constant.service.ServicePort;
 import com.hayeum.frontserver.common.object.SendMap;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
-
 import java.io.IOException;
 
 @Slf4j
@@ -25,16 +24,21 @@ public class MemberControlImpl implements MemberControl{
 
         SendMap<String, Object> formData = new SendMap<>(request);
 
-        log.info(formData.toString());
+        String uuidToken = useToken.createToken();
+
+        formData.getBodyIn().setValue("token",uuidToken);
 
         // 통신하여 유저 정보 일치 확인
-        try {
-            SendMap<String, Object> resp = HttpSend.callServer(formData, "/login", ServicePort.DATABASE, ServiceMethod.POST);
-        }catch (Exception e){
-            log.error(e.getMessage());
-        }
+        SendMap<String, Object> resp
+                = HttpSend.callServer(formData, "/login", ServicePort.DATABASE, ServiceMethod.POST);
 
-        String uuidToken = useToken.createToken();
+        log.info(resp.toString());
+        boolean loginResult = (Boolean) resp.getBodyOut().get("loginResult");
+        // 로그인 결과 로그
+        log.info(String.valueOf(loginResult));
+
+        if( !loginResult )
+            return false;
 
         useToken.setSession(uuidToken, request);
 
