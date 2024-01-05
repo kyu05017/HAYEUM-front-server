@@ -31,8 +31,8 @@ public class AccountController {
         SendMap<String, Object> formData = new SendMap<>(request);
         SendMap<String, Object> response = HttpSend.callServer(formData,"/account-controller/login" , ServicePort.DATABASE, ServiceMethod.POST);
 
-        sessionService.accountSessionSave(formData.getHeaderIn().getValue("token",""),response.getBodyOut().getValue("info",""));
-
+        String result = sessionService.accountSessionSave(formData.getHeaderIn().getValue("token",""),response.getBodyOut().getValue("info",""));
+        log.info("클라이언트 세션에 저장할 로그인 정보 -> {}",result);
 
         return response;
     }
